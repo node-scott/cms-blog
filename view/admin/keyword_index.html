@@ -1,0 +1,99 @@
+{% extends "./inc/base.html" %}
+{% block content %}
+<section class="vbox">
+    <header class="header bg-light dk">
+        <ul class="nav nav-tabs pull-left">
+            <li class="active"><a data-toggle="tab" href="#"><i class="fa fa-comments text-muted"></i> 话题管理 </a></li>
+            </li>
+        </ul>
+    </header>
+
+    <section class="scrollable wrapper">
+
+        <section class="panel panel-default">
+            <header class="panel-heading">
+                话题列表
+            </header>
+            <div class="row wrapper">
+                <div class="col-sm-5 m-b-xs">
+                    <a class="btn  btn-info" >新建话题</a>
+                    <a class="btn  btn-info" >删除话题</a>
+                    <a class="btn  btn-info" >锁定话题</a>
+
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped b-t b-light" id="export-form">
+                    <thead>
+                    <tr>
+                        <th style="width:20px;"><label class="checkbox m-n i-checks"><input type="checkbox"><i></i></label>
+                        </th>
+                        <th>话题标题</th>
+                        <th>内容	</th>
+                        <th>关注</th>
+                        <th>合并</th>
+                        <th>状态	</th>
+                        <th>最后编辑用户</th>
+                        <th>最后编辑时间</th>
+                        <th style="width:130px;">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in list.data %}
+                    <tr>
+                        <td><label class="checkbox m-n i-checks"><input type="checkbox" value="{{ item.Name }}"
+                                                                        name="tables" ><i></i></label>
+                        </td>
+                        <td>{{ item.keyname }}</td>
+                        <td>{{ item.videonum }}</td>
+                        <td>{{ item.focus_count}}</td>
+                        <td>{%if item.merged_id==0%}否{%else%}是{%endif%}</td>
+                        <td> <a href="/admin/keyword/lock/ids/{{item.id}}/lock/{{1-item.lock}}" class="active ajax-get" data-toggle="class">
+                            <i class="fa fa-lock text-danger {%if item.lock %}text-active{%else%}text{%endif%}"></i>
+                            <i class="fa fa-unlock text-success {%if item.lock %}text{%else%}text-active{%endif%}"></i>
+                        </a></td>
+                        <td>{{item.lastuser|get_nickname}}</td>
+                        <td>
+                            {{item.discuss_count_update|moment('YYYY-MM-DD HH:mm:ss')}}
+                        </td>
+                        <td>
+                            <a href="#" class="text-info">编辑</a>
+                            <a href="#" class="text-info">删除</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+            <footer class="panel-footer">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="btn-group">
+                            <a class="btn btn-sm btn-default todo" target-form="ids" href="#">
+                                微信图文
+                            </a>
+                            <a class="btn btn-sm btn-default todo" target-form="ids" href="#">
+                                高级图文
+                            </a>
+                            <a class="btn btn-sm btn-default todo" target-form="ids" href="#">
+                                推送
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-9 text-right text-center-xs">
+                        {{pagerData | safe}}
+                    </div>
+                </div>
+            </footer>
+        </section>
+    </section>
+</section>
+
+
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}
